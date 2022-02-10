@@ -29,21 +29,21 @@
 1. 下载
 
    ```
-   wget https://oss.npmmirror.com/dist/node/v16.13.2/node-v16.13.2-linux-x64.tar.xz
+   wget https://oss.npmmirror.com/dist/node/v14.16.1/node-v14.16.1-linux-x64.tar.xz
    ```
 
    解压
 
    ```
-   tar -xvf node-v16.13.2-linux-x64.tar.xz
+   tar -xvf node-v14.16.1-linux-x64.tar.xz
    ```
 
 2. 配置软连接，使全局都可以使用node命令
 
    ```
    #将node源文件映射到usr/bin下的node文件
-   ln -s /home/webfront/node-v16.13.2-linux-x64/bin/node /usr/bin/node
-   ln -s /home/webfront/node-v16.13.2-linux-x64/bin/npm /usr/bin/npm
+   ln -s /home/webfront/node-v14.16.1-linux-x64/bin/node /usr/bin/node
+   ln -s /home/webfront/node-v14.16.1-linux-x64/bin/npm /usr/bin/npm
    ```
 
 3. 配置node文件安装路径
