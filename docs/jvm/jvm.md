@@ -65,7 +65,7 @@ public class Main {
 		int c = a + b;
 		return c;
 	}
-}Copy
+}
 ```
 
 [![img](jvm.assets/20200608150534.png)](jvm.assets/20200608150534.png)
@@ -155,7 +155,7 @@ CPU占用过高
   - 输入 **javac 对应类的绝对路径**
 
     ```
-    F:\JAVA\JDK8.0\bin>javac F:\Thread_study\src\com\nyima\JVM\day01\Main.javaCopy
+    F:\JAVA\JDK8.0\bin>javac F:\Thread_study\src\com\nyima\JVM\day01\Main.java
     ```
 
     输入完成后，对应的目录下就会出现类的.class文件
@@ -163,7 +163,7 @@ CPU占用过高
 - 在控制台输入 javap -v 类的绝对路径
 
   ```
-  javap -v F:\Thread_study\src\com\nyima\JVM\day01\Main.classCopy
+  javap -v F:\Thread_study\src\com\nyima\JVM\day01\Main.class
   ```
 
 - 然后能在控制台看到反编译以后类的信息了
@@ -211,7 +211,7 @@ public class StringTableStudy {
 		String b = "b";
 		String ab = "ab";
 	}
-}Copy
+}
 ```
 
 常量池中的信息，都会被加载到运行时常量池中，但这是a b ab 仅是常量池中的符号，**还没有成为java字符串**
@@ -223,7 +223,7 @@ public class StringTableStudy {
 5: astore_2
 6: ldc           #4                  // String ab
 8: astore_3
-9: returnCopy
+9: return
 ```
 
 当执行到 ldc #2 时，会把符号 a 变为 “a” 字符串对象，**并放入串池中**（hashtable结构 不可扩容）
@@ -247,7 +247,7 @@ public class StringTableStudy {
 		//拼接字符串对象来创建新的字符串
 		String ab2 = a+b; 
 	}
-}Copy
+}
 ```
 
 反编译后的结果
@@ -273,7 +273,7 @@ public class StringTableStudy {
         24: invokevirtual #8                  // Method java/lang/StringBuilder.toString:()Ljava/lang/Str
 ing;
         27: astore        4
-        29: returnCopy
+        29: return
 ```
 
 通过拼接的方式来创建字符串的**过程**是：StringBuilder().append(“a”).append(“b”).toString()
@@ -284,7 +284,7 @@ ing;
 String ab = "ab";
 String ab2 = a+b;
 //结果为false,因为ab是存在于串池之中，ab2是由StringBuffer的toString方法所返回的一个对象，存在于堆内存之中
-System.out.println(ab == ab2);Copy
+System.out.println(ab == ab2);
 ```
 
 使用**拼接字符串常量对象**的方法创建字符串
@@ -299,7 +299,7 @@ public class StringTableStudy {
 		//使用拼接字符串的方法创建字符串
 		String ab3 = "a" + "b";
 	}
-}Copy
+}
 ```
 
 反编译后的结果
@@ -328,7 +328,7 @@ ing;
         //ab3初始化时直接从串池中获取字符串
         29: ldc           #4                  // String ab
         31: astore        5
-        33: returnCopy
+        33: return
 ```
 
 - 使用**拼接字符串常量**的方法来创建新的字符串时，因为**内容是常量，javac在编译期会进行优化，结果已在编译期确定为ab**，而创建ab的时候已经在串池中放入了“ab”，所以ab3直接从串池中获取值，所以进行的操作和 ab = “ab” 一致。
@@ -360,7 +360,7 @@ public class Main {
 		System.out.println(str == st2);
 		System.out.println(str == str3);
 	}
-}Copy
+}
 ```
 
 **例2**
@@ -381,7 +381,7 @@ public class Main {
         //true
 		System.out.println(str2 == str3);
 	}
-}Copy
+}
 ```
 
 ##### intern方法 1.6
@@ -404,7 +404,7 @@ StringTable在内存紧张时，会发生垃圾回收
 - 因为StringTable是由HashTable实现的，所以可以**适当增加HashTable桶的个数**，来减少字符串放入串池所需要的时间
 
   ```
-  -XX:StringTableSize=xxxxCopy
+  -XX:StringTableSize=xxxx
   ```
 
   
@@ -437,7 +437,7 @@ StringTable在内存紧张时，会发生垃圾回收
 
 ```
 //通过ByteBuffer申请1M的直接内存
-ByteBuffer byteBuffer = ByteBuffer.allocateDirect(_1M);Copy
+ByteBuffer byteBuffer = ByteBuffer.allocateDirect(_1M);
 ```
 
 申请直接内存，但JVM并不能回收直接内存中的内容，它是如何实现回收的呢？
@@ -447,7 +447,7 @@ ByteBuffer byteBuffer = ByteBuffer.allocateDirect(_1M);Copy
 ```
 public static ByteBuffer allocateDirect(int capacity) {
     return new DirectByteBuffer(capacity);
-}Copy
+}
 ```
 
 DirectByteBuffer类
@@ -477,7 +477,7 @@ DirectByteBuffer(int cap) {   // package-private
     }
     cleaner = Cleaner.create(this, new Deallocator(base, size, cap)); //通过虚引用，来实现直接内存的释放，this为虚引用的实际对象
     att = null;
-}Copy
+}
 ```
 
 这里调用了一个Cleaner的create方法，且后台线程还会对虚引用的对象监测，如果虚引用的实际对象（这里是DirectByteBuffer）被回收以后，就会调用Cleaner的clean方法，来清除直接内存中占用的内存
@@ -498,7 +498,7 @@ public void clean() {
                        return null;
                    }
                });
-           }Copy
+           }
 ```
 
 对应对象的run方法
@@ -512,7 +512,7 @@ public void run() {
     unsafe.freeMemory(address); //释放直接内存中占用的内存
     address = 0;
     Bits.unreserveMemory(size, capacity);
-}Copy
+}
 ```
 
 ##### 直接内存的回收机制总结
@@ -566,7 +566,7 @@ public class Demo1 {
 		List<SoftReference<byte[]>> list = new ArrayList<>();
 		SoftReference<byte[]> ref= new SoftReference<>(new byte[_4M]);
 	}
-}Copy
+}
 ```
 
 如果在垃圾回收时发现内存不足，在回收软引用所指向的对象时，**软引用本身不会被清理**
@@ -592,7 +592,7 @@ public class Demo1 {
 			poll = queue.poll();
 		}
 	}
-}Copy
+}
 ```
 
 **大概思路为：**查看引用队列中有无软引用，如果有，则将该软引用从存放它的集合中移除（这里为一个list集合）
@@ -935,7 +935,7 @@ G1在老年代内存不足时（老年代所占内存超过阈值）
 查看虚拟机参数命令
 
 ```
-"F:\JAVA\JDK8.0\bin\java" -XX:+PrintFlagsFinal -version | findstr "GC"Copy
+"F:\JAVA\JDK8.0\bin\java" -XX:+PrintFlagsFinal -version | findstr "GC"
 ```
 
 可以根据参数去查询具体的信息
@@ -1043,7 +1043,7 @@ G1在老年代内存不足时（老年代所占内存超过阈值）
 0001040 00 00 00 0a 00 02 00 00 00 06 00 08 00 07 00 0b 
 0001060 00 00 00 0c 00 01 00 00 00 09 00 10 00 11 00 00 
 0001100 00 12 00 00 00 05 01 00 10 00 00 00 01 00 13 00 
-0001120 00 00 02 00 14Copy
+0001120 00 00 02 00 14
 ```
 
 根据 JVM 规范，**类文件结构**如下
@@ -1064,7 +1064,7 @@ field_info     fields[fields_count];
 u2             methods_count;    
 method_info    methods[methods_count];    
 u2             attributes_count;    
-attribute_info attributes[attributes_count];Copy
+attribute_info attributes[attributes_count];
 ```
 
 #### 魔数
@@ -1102,7 +1102,7 @@ https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html#jvms-6.5
 Oracle 提供了 **javap** 工具来反编译 class 文件
 
 ```
-javap -v F:\Thread_study\src\com\nyima\JVM\day01\Main.classCopy
+javap -v F:\Thread_study\src\com\nyima\JVM\day01\Main.class
 F:\Thread_study>javap -v F:\Thread_study\src\com\nyima\JVM\day5\Demo1.class
 Classfile /F:/Thread_study/src/com/nyima/JVM/day5/Demo1.class
   Last modified 2020-6-6; size 434 bytes
@@ -1166,7 +1166,7 @@ Constant pool:
       LineNumberTable:
         line 9: 0
         line 10: 8
-}Copy
+}
 ```
 
 #### 图解方法执行流程
@@ -1181,7 +1181,7 @@ public class Demo3_1 {
 		int c = a + b;        
 		System.out.println(c);   
     } 
-}Copy
+}
 ```
 
 **常量池载入运行时常量池**
@@ -1218,7 +1218,7 @@ public class Demo3_1 {
 对应代码中的
 
 ```
-a = 10Copy
+a = 10
 ```
 
 [![img](jvm.assets/20200608151346.png)](jvm.assets/20200608151346.png)
@@ -1317,7 +1317,7 @@ public class Demo2 {
 		}
 		System.out.println(x); //接过为0
 	}
-}Copy
+}
 ```
 
 为什么最终的x结果为0呢？ 通过分析字节码指令即可知晓
@@ -1340,7 +1340,7 @@ Code:
        21: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
        24: iload_2
        25: invokevirtual #3                  // Method java/io/PrintStream.println:(I)V
-       28: returnCopy
+       28: return
 ```
 
 #### 构造方法
@@ -1362,7 +1362,7 @@ public class Demo3 {
 	public static void main(String[] args) {
 		System.out.println(i); //结果为30
 	}
-}Copy
+}
 ```
 
 编译器会按**从上至下**的顺序，收集所有 static 静态代码块和静态成员赋值的代码，**合并**为一个特殊的方法 cinit()V ：
@@ -1375,7 +1375,7 @@ stack=1, locals=0, args_size=0
          7: putstatic     #3                  // Field i:I
         10: bipush        30
         12: putstatic     #3                  // Field i:I
-        15: returnCopy
+        15: return
 ```
 
 ##### init()V
@@ -1404,7 +1404,7 @@ public class Demo4 {
 		System.out.println(d.a);
 		System.out.println(d.b);
 	}
-}Copy
+}
 ```
 
 编译器会按**从上至下**的顺序，收集所有 {} 代码块和成员变量赋值的代码，**形成新的构造方法**，但**原始构造方法**内的代码**总是在后**
@@ -1433,7 +1433,7 @@ Code:
        33: aload_0
        34: iload_2
        35: putfield      #4                  // Field b:I
-       38: returnCopy
+       38: return
 ```
 
 #### 方法调用
@@ -1467,7 +1467,7 @@ public class Demo5 {
 		demo5.test3();
 		Demo5.test4();
 	}
-}Copy
+}
 ```
 
 不同方法在调用时，对应的虚拟机指令有所区别
@@ -1490,7 +1490,7 @@ Code:
         16: aload_1
         17: invokevirtual #6                  // Method test3:()V
         20: invokestatic  #7                  // Method test4:()V
-        23: returnCopy
+        23: return
 ```
 
 - new 是创建【对象】，给对象分配堆内存，执行成功会将【**对象引用**】压入操作数栈
@@ -1524,7 +1524,7 @@ public class Demo1 {
 			i = 20;
 		}
 	}
-}Copy
+}
 ```
 
 对应字节码指令
@@ -1544,7 +1544,7 @@ Code:
      //多出来一个异常表
      Exception table:
         from    to  target type
-            2     5     8   Class java/lang/ExceptionCopy
+            2     5     8   Class java/lang/Exception
 ```
 
 - 可以看到多出来一个 Exception table 的结构，[from, to) 是**前闭后开**（也就是检测2~4行）的检测范围，一旦这个范围内的字节码执行出现异常，则通过 type 匹配异常类型，如果一致，进入 target 所指示行号
@@ -1564,7 +1564,7 @@ public class Demo1 {
 			i = 30;
 		}
 	}
-}Copy
+}
 ```
 
 对应的字节码
@@ -1588,7 +1588,7 @@ Code:
      Exception table:
         from    to  target type
             2     5     8   Class java/lang/ArithmeticException
-            2     5    15   Class java/lang/ExceptionCopy
+            2     5    15   Class java/lang/Exception
 ```
 
 - 因为异常出现时，**只能进入** Exception table 中**一个分支**，所以局部变量表 slot 2 位置**被共用**
@@ -1607,7 +1607,7 @@ public class Demo2 {
 			i = 30;
 		}
 	}
-}Copy
+}
 ```
 
 对应字节码
@@ -1643,7 +1643,7 @@ Code:
         from    to  target type
             2     5    11   Class java/lang/Exception
             2     5    21   any
-           11    15    21   anyCopy
+           11    15    21   any
 ```
 
 可以看到 ﬁnally 中的代码被**复制了 3 份**，分别放入 try 流程，catch 流程以及 catch剩余的异常类型流程
@@ -1670,7 +1670,7 @@ public class Demo3 {
 			return i;
 		}
 	}
-}Copy
+}
 ```
 
 对应字节码
@@ -1694,7 +1694,7 @@ Code:
        15: ireturn	//这里没有athrow了，也就是如果在finally块中如果有返回操作的话，且try块中出现异常，会吞掉异常！
      Exception table:
         from    to  target type
-            0     5    10   anyCopy
+            0     5    10   any
 ```
 
 - 由于 ﬁnally 中的 **ireturn** 被插入了所有可能的流程，因此返回结果肯定以ﬁnally的为准
@@ -1724,7 +1724,7 @@ public class Demo3 {
          return i;
       }
    }
-}Copy
+}
 ```
 
 会发现打印结果为20，并未抛出异常
@@ -1746,7 +1746,7 @@ public class Demo4 {
 			i = 20;
 		}
 	}
-}Copy
+}
 ```
 
 对应字节码
@@ -1769,7 +1769,7 @@ Code:
        15: athrow //抛出异常
      Exception table:
         from    to  target type
-            3     5    10   anyCopy
+            3     5    10   any
 ```
 
 #### Synchronized
@@ -1785,7 +1785,7 @@ public class Demo5 {
 	}
 }
 
-class Lock{}Copy
+class Lock{}
 ```
 
 对应字节码
@@ -1822,7 +1822,7 @@ Code:
      Exception table:
         from    to  target type
            15    24    27   any
-           27    31    27   anyCopy
+           27    31    27   any
 ```
 
 ### 3、编译期处理
@@ -1836,7 +1836,7 @@ Code:
 ```
 public class Candy1 {
 
-}Copy
+}
 ```
 
 经过编译期优化后
@@ -1848,7 +1848,7 @@ public class Candy1 {
       //即调用父类 Object 的无参构造方法，即调用 java/lang/Object." <init>":()V
       super();
    }
-}Copy
+}
 ```
 
 #### 自动拆装箱
@@ -1863,7 +1863,7 @@ public class Demo2 {
       Integer x = 1;
       int y = x;
    }
-}Copy
+}
 ```
 
 转换过程如下
@@ -1876,7 +1876,7 @@ public class Demo2 {
       //包装类型赋值给基本类型，称谓拆箱
       int y = x.intValue();
    }
-}Copy
+}
 ```
 
 #### 泛型集合取值
@@ -1890,7 +1890,7 @@ public class Demo3 {
       list.add(10);
       Integer x = list.get(0);
    }
-}Copy
+}
 ```
 
 对应字节码
@@ -1916,19 +1916,19 @@ Code:
 //这里进行了类型转换，将Object转换成了Integer
       27: checkcast     #7                  // class java/lang/Integer
       30: astore_2
-      31: returnCopy
+      31: return
 ```
 
 所以调用get函数取值时，有一个类型转换的操作
 
 ```
-Integer x = (Integer) list.get(0);Copy
+Integer x = (Integer) list.get(0);
 ```
 
 如果要将返回结果赋值给一个int类型的变量，则还有**自动拆箱**的操作
 
 ```
-int x = (Integer) list.get(0).intValue();Copy
+int x = (Integer) list.get(0).intValue();
 ```
 
 #### 可变参数
@@ -1944,7 +1944,7 @@ public class Demo4 {
    public static void main(String[] args) {
       foo("hello", "world");
    }
-}Copy
+}
 ```
 
 可变参数 **String…** args 其实是一个 **String[]** args ，从代码中的赋值语句中就可以看出来。 同 样 java 编译器会在编译期间将上述代码变换为：
@@ -1962,7 +1962,7 @@ public class Demo4 {
    public static void main(String[] args) {
       foo(new String[]{"hello", "world"});
    }
-}Copy
+}
 ```
 
 注意，如果调用的是foo()，即未传递参数时，等价代码为foo(new String[]{})，**创建了一个空数组**，而不是直接传递的null
@@ -1978,7 +1978,7 @@ public class Demo5 {
 			System.out.println(x);
 		}
 	}
-}Copy
+}
 ```
 
 编译器会帮我们转换为
@@ -1994,7 +1994,7 @@ public class Demo5 {
 			System.out.println(x);
 		}
 	}
-}Copy
+}
 ```
 
 **如果是集合使用foreach**
@@ -2007,7 +2007,7 @@ public class Demo5 {
          System.out.println(x);
       }
    }
-}Copy
+}
 ```
 
 集合要使用foreach，需要该集合类实现了**Iterable接口**，因为集合的遍历需要用到**迭代器Iterator**
@@ -2025,7 +2025,7 @@ public class Demo5 {
          System.out.println(x);
       }
    }
-}Copy
+}
 ```
 
 #### switch字符串
@@ -2045,7 +2045,7 @@ public class Demo6 {
             break;
       }
    }
-}Copy
+}
 ```
 
 在编译器中执行的操作
@@ -2089,7 +2089,7 @@ public class Demo6 {
             break;
       }
    }
-}Copy
+}
 ```
 
 过程说明：
@@ -2121,7 +2121,7 @@ public class Demo7 {
 
 enum SEX {
    MALE, FEMALE;
-}Copy
+}
 ```
 
 编译器中执行的代码如下
@@ -2163,7 +2163,7 @@ public class Demo7 {
 
 enum SEX {
    MALE, FEMALE;
-}Copy
+}
 ```
 
 #### 枚举类
@@ -2171,7 +2171,7 @@ enum SEX {
 ```
 enum SEX {
    MALE, FEMALE;
-}Copy
+}
 ```
 
 转换后的代码
@@ -2202,7 +2202,7 @@ public final class Sex extends Enum<Sex> {
         return Enum.valueOf(Sex.class, name);  
     } 
    
-}Copy
+}
 ```
 
 #### 匿名内部类
@@ -2217,7 +2217,7 @@ public class Demo8 {
          }
       };
    }
-}Copy
+}
 ```
 
 转换后的代码
@@ -2238,7 +2238,7 @@ final class Demo8$1 implements Runnable {
    public void run() {
       System.out.println("running...");
    }
-}Copy
+}
 ```
 
 如果匿名内部类中引用了**局部变量**
@@ -2254,7 +2254,7 @@ public class Demo8 {
          }
       };
    }
-}Copy
+}
 ```
 
 转化后代码
@@ -2284,7 +2284,7 @@ final class Demo8$1 implements Runnable {
    public void run() {
       System.out.println(val$x);
    }
-}Copy
+}
 ```
 
 ### 4、类加载阶段
@@ -2330,7 +2330,7 @@ final class Demo8$1 implements Runnable {
 - static变量在JDK 7以前是存储与instanceKlass末尾。但在JDK 7以后就存储在_java_mirror末尾了
 - static变量在分配空间和赋值是在两个阶段完成的。分配空间在准备阶段完成，赋值在初始化阶段完成
 - 如果 static 变量是 ﬁnal 的**基本类型**，以及**字符串常量**，那么编译阶段值就确定了，**赋值在准备阶段完成**
-- 如果 static 变量是 ﬁnal 的，但属于**引用类型**，那么赋值也会在**初始化阶段完成**
+- 如果 static 变量是 ﬁnal 的，但属于**引用类型**，那么赋值会在**初始化阶段完成**
 
 ##### 解析
 
@@ -2339,13 +2339,13 @@ final class Demo8$1 implements Runnable {
 - 先获得要查看的进程ID
 
 ```
-jpsCopy
+jps
 ```
 
 - 打开HSDB
 
 ```
-java -cp F:\JAVA\JDK8.0\lib\sa-jdi.jar sun.jvm.hotspot.HSDBCopy
+java -cp F:\JAVA\JDK8.0\lib\sa-jdi.jar sun.jvm.hotspot.HSDB
 ```
 
 - 运行时可能会报错，是因为**缺少一个.dll的文件**，我们在JDK的安装目录中找到该文件，复制到缺失的文件下即可
@@ -2381,7 +2381,7 @@ class C {
 
 class D {
 
-}Copy
+}
 ```
 
 - 打开HSDB
@@ -2418,10 +2418,41 @@ class D {
 **类的初始化的懒惰的**，以下情况会初始化
 
 - main 方法所在的类，总会被首先初始化
+
 - 首次访问这个类的静态变量或静态方法时
+
 - 子类初始化，如果父类还没初始化，会引发
-- 子类访问父类的静态变量，只会触发父类的初始化
+
+- 通过子类访问父类的静态变量，只会触发父类的初始化,子类不会初始化
+
+  ```java
+  public class Test7 {
+      public static void main(String[] args) {
+          System.out.println(Son.boo);
+      }
+  }
+  class Father {
+      static final String A = "A";
+      static boolean boo = false;
+      static {
+          System.out.println("Father init");
+      }
+  }
+  class Son extends Father {
+      static final String A = "A";
+      static {
+          System.out.println("Son init");
+      }
+  }
+  //
+  Father init
+  false
+  ```
+
+  
+
 - Class.forName
+
 - new 会导致初始化
 
 以下情况不会初始化
@@ -2508,7 +2539,7 @@ protected Class<?> loadClass(String name, boolean resolve)
         }
         return c;
     }
-}Copy
+}
 ```
 
 #### 自定义类加载器
@@ -2641,7 +2672,7 @@ C++是否为内联函数由自己决定，Java由**编译器决定**。Java不�
 ```
 public final void doSomething() {  
         // to do something  
-}Copy
+}
 ```
 
 总的来说，一般的函数都不会被当做内联函数，只有声明了final后，编译器才会考虑是不是要把你的函数变成内联函数
@@ -2660,7 +2691,7 @@ private int add4(int x1, int x2, int x3, int x4) {
 
     private int add2(int x1, int x2) {  
         return x1 + x2;  
-    }Copy
+    }
 ```
 
 方法调用被替换后
@@ -2669,7 +2700,7 @@ private int add4(int x1, int x2, int x3, int x4) {
 private int add4(int x1, int x2, int x3, int x4) {  
     	//被替换为了方法本身
         return x1 + x2 + x3 + x4;  
-    }Copy
+    }
 ```
 
 #### 反射优化
@@ -2686,7 +2717,7 @@ public class Reflect1 {
          foo.invoke(null);
       }
    }
-}Copy
+}
 ```
 
 foo.invoke 前面 0 ~ 15 次调用使用的是 MethodAccessor 的 NativeMethodAccessorImpl 实现
@@ -2711,7 +2742,7 @@ public Object invoke(Object obj, Object... args)
         ma = acquireMethodAccessor();
     }
     return ma.invoke(obj, args);
-}Copy
+}
 ```
 
 [![img](jvm.assets/20200614133554.png)](jvm.assets/20200614133554.png)
@@ -2746,9 +2777,9 @@ class NativeMethodAccessorImpl extends MethodAccessorImpl {
     }
 
     private static native Object invoke0(Method var0, Object var1, Object[] var2);
-}Copy
+}
 //ReflectionFactory.inflationThreshold()方法的返回值
-private static int inflationThreshold = 15;Copy
+private static int inflationThreshold = 15;
 ```
 
 - 一开始if条件不满足，就会调用本地方法invoke0
