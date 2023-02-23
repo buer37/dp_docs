@@ -26,7 +26,7 @@ Docker 为容器创建了行业标准，使容器成为了软件交付过程中�
 
 但是由于容器与宿主机共享内核，所以在隔离性和安全性方面不如虚拟机。
 
-![img](E:\MyWork\IdeaProjects\dp_docs\docs\docker\assets\1660536847283-9dc57de3-6ff6-4c2c-ace6-6d151e93c73a.png)
+![img](assets\1660536847283-9dc57de3-6ff6-4c2c-ace6-6d151e93c73a.png)
 
 
 
@@ -118,7 +118,7 @@ docker-compose-plugin：容器编排工具
 
 ## 1.docker架构
 
-![img](E:\MyWork\IdeaProjects\dp_docs\docs\docker\assets\1660548474734-dc17b48b-a862-48af-a8b2-41bbcc5ea96d.svg)
+![img](assets\1660548474734-dc17b48b-a862-48af-a8b2-41bbcc5ea96d.svg)
 
 ### registry 镜像仓库
 
@@ -174,7 +174,7 @@ docker run --name some-nginx -d -p 8080:80 nginx:1.22
 
 浏览器打开 http://192.168.56.106:8080
 
-![img](E:\MyWork\IdeaProjects\dp_docs\docs\docker\assets\1660634983461-c05bf2c7-10a4-4dfc-9c8c-c03d3aaf9c5e.png)
+![img](assets\1660634983461-c05bf2c7-10a4-4dfc-9c8c-c03d3aaf9c5e.png)
 
 `-p 8080-8090:8080-8090`公开端口范围，前后必须对应
 
@@ -258,7 +258,7 @@ https://docs.docker.com/engine/reference/run/
 
 docker会自动创建三个网络，`bridge`,`host`,`none`
 
-![img](E:\MyWork\IdeaProjects\dp_docs\docs\docker\assets\1660642734402-1c0fa111-aa20-42c5-930f-3164f119ca02.png)
+![img](assets\1660642734402-1c0fa111-aa20-42c5-930f-3164f119ca02.png)
 
 - bridge桥接网络
 
@@ -319,7 +319,7 @@ docker inspect \
 	--format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' my-alpine
 ```
 
-![img](E:\MyWork\IdeaProjects\dp_docs\docs\docker\assets\1660908781495-38fcf8f6-b15d-44a7-853d-2dca280be25a.png)
+![img](assets\1660908781495-38fcf8f6-b15d-44a7-853d-2dca280be25a.png)
 
 #### /etc/hosts
 
@@ -355,7 +355,7 @@ https://docs.docker.com/config/containers/container-networking/
 
 docker 提供了以下存储选项
 
-![img](E:\MyWork\IdeaProjects\dp_docs\docs\docker\assets\1660706155357-ef4e6649-4ed5-4958-b68d-ba9530acf4b0.png)
+![img](assets\1660706155357-ef4e6649-4ed5-4958-b68d-ba9530acf4b0.png)
 
 - **volume 卷**
 
@@ -873,7 +873,7 @@ environment:
 
 数据库初始化完成之前，不会建立connections。
 
-![img](E:\MyWork\IdeaProjects\dp_docs\docs\docker\assets\1662362432335-8093ea3e-7381-4b02-9972-eaf18abc9764.png)
+![img](assets\1662362432335-8093ea3e-7381-4b02-9972-eaf18abc9764.png)
 
 `depends_on`只能保证容器的启动和销毁顺序，不能确保依赖的容器是否ready。
 
@@ -1056,15 +1056,15 @@ EXPOSE 8080
 
 `docker build .` 打包
 
-![img](E:\MyWork\IdeaProjects\dp_docs\docs\docker\assets\1663056309700-928c449d-f90b-4afb-8337-627ad49472a4.png)
+![img](assets\1663056309700-928c449d-f90b-4afb-8337-627ad49472a4.png)
 
 `docker images` 查看镜像id
 
-![img](E:\MyWork\IdeaProjects\dp_docs\docs\docker\assets\1663056372495-f17eb375-6895-4730-a38b-cf8faba773ec.png)
+![img](assets\1663056372495-f17eb375-6895-4730-a38b-cf8faba773ec.png)
 
 `docker tag 79d007b05ff6 ruoyi-app:4.7.4-jar` 设置镜像的标签
 
-![img](E:\MyWork\IdeaProjects\dp_docs\docs\docker\assets\1663056775981-00641c13-8fd6-41ec-ab0a-a22a1415f8b7.png)
+![img](assets\1663056775981-00641c13-8fd6-41ec-ab0a-a22a1415f8b7.png)
 
 ## image镜像与layer层
 
@@ -1072,15 +1072,15 @@ image文件由一系列层构建而成，dockerfile每一个命令都会生成�
 
 例如前面我们制作镜像，就产生了4个层。
 
-![img](E:\MyWork\IdeaProjects\dp_docs\docs\docker\assets\1663056309700-928c449d-f90b-4afb-8337-627ad49472a4.png)
+![img](assets\1663056309700-928c449d-f90b-4afb-8337-627ad49472a4.png)
 
 也可以使用`docker image history ruoyi-java:4.7.4`命令查看
 
-![img](E:\MyWork\IdeaProjects\dp_docs\docs\docker\assets\1663056432477-b4c75843-bfe5-4233-9163-b3503243e020.png)
+![img](assets\1663056432477-b4c75843-bfe5-4233-9163-b3503243e020.png)
 
 创建容器时，会创建一个新的可写层，通常称为“容器层”。对正在运行的容器所做的所有更改（如写入新文件、修改现有文件和删除文件）都将写入容器层，而不会修改镜像。
 
-![img](E:\MyWork\IdeaProjects\dp_docs\docs\docker\assets\1660987376201-3819b565-8608-449f-920e-0a5016b4de76.png)
+![img](assets\1660987376201-3819b565-8608-449f-920e-0a5016b4de76.png)
 
 ## 多阶段构建
 
@@ -1213,7 +1213,7 @@ docker pull localhost:5000/ruoyi-java:4.7.4
 
 如果遇到以下错误：
 
-![img](E:\MyWork\IdeaProjects\dp_docs\docs\docker\assets\1663307599499-8035dfa9-01e1-44dd-8d96-e27c52ea0a57.png)
+![img](assets\1663307599499-8035dfa9-01e1-44dd-8d96-e27c52ea0a57.png)
 
 这是因为`docker push`默认使用`HTTPS`协议，而服务端的`registry`仓库使用的是`HTTP`。
 
@@ -1238,7 +1238,7 @@ docker compose up -d
 
 浏览器访问：[http://192.168.56.108](http://192.168.56.108/harbor/projects)，默认用户名/密码：`admin/bitnami`
 
-![img](E:\MyWork\IdeaProjects\dp_docs\docs\docker\assets\1663308776828-c8e2eb02-b689-4f47-9243-83a1a1cb5f41.png)
+![img](assets\1663308776828-c8e2eb02-b689-4f47-9243-83a1a1cb5f41.png)
 
 ## 保存与加载image
 
@@ -1264,7 +1264,7 @@ docker compose up -d
 
 image包含多个层，每一层都不可变，save保存的信息包含每个层和所有标签 + 版本信息。
 
-容器运行的时候会创建一个可写入的容器层，所有的更改都写入容器层，export导出的只有容器层，不包含父层和标签信息。![image.png](E:\MyWork\IdeaProjects\dp_docs\docs\docker\assets\1661007394206-b7d81707-a557-41e8-a840-f708acf20292.png)
+容器运行的时候会创建一个可写入的容器层，所有的更改都写入容器层，export导出的只有容器层，不包含父层和标签信息。![image.png](assets\1661007394206-b7d81707-a557-41e8-a840-f708acf20292.png)
 
 # 十、windows安装docker
 
@@ -1293,11 +1293,11 @@ Docker Desktop是一个用于操作docker的GUI图形界面化工具，它包含
 
 1. 在“任务管理器”的“性能”选项里查看虚拟化是否启用。如果没有，需要在BIOS中开启。
 
-![img](E:\MyWork\IdeaProjects\dp_docs\docs\docker\assets\1660567166974-9b4a977f-ac9e-4d69-b66f-01351ecc1fb3.png)
+![img](assets\1660567166974-9b4a977f-ac9e-4d69-b66f-01351ecc1fb3.png)
 
 1. 安装“虚拟机平台”和 WSL
 
-![img](E:\MyWork\IdeaProjects\dp_docs\docs\docker\assets\1673400408225-c66c1541-66c1-43fb-9e2d-889c0ec2c181.png)
+![img](assets\1673400408225-c66c1541-66c1-43fb-9e2d-889c0ec2c181.png)
 或者以管理员身份运行以下命令：
 
 ```powershell
@@ -1327,13 +1327,13 @@ wsl --set-default-version 2
 
 下载[Docker Desktop for Windows](https://desktop.docker.com/win/main/amd64/Docker Desktop Installer.exe)进行安装。出现以下界面，安装成功。
 
-![img](E:\MyWork\IdeaProjects\dp_docs\docs\docker\assets\1660567962026-9ecb1833-e79e-4c2d-bbb8-1bfd84b29485.png)
+![img](assets\1660567962026-9ecb1833-e79e-4c2d-bbb8-1bfd84b29485.png)
 
 #### 4.配置镜像站
 
 由于访问docker hub网络比较慢，因此需要配置国内的容器仓库镜像站。
 
-![img](E:\MyWork\IdeaProjects\dp_docs\docs\docker\assets\1660568207471-a6449e68-af4e-4cc7-b7dc-4f333db80310.png)
+![img](assets\1660568207471-a6449e68-af4e-4cc7-b7dc-4f333db80310.png)
 
 ```json
 {
@@ -1395,7 +1395,7 @@ https://docs.docker.com/desktop/faqs/windowsfaqs/
 
 Portainer是一个可视化的Docker管理系统，功能十分全面，提供状态显示面板、应用模板快速部署、容器镜像、网络、数据卷的基本操作、事件日志显示、容器控制台操作、登录用户管理和控制等功能。
 
-![img](E:\MyWork\IdeaProjects\dp_docs\docs\docker\assets\1661241534138-81ab193a-b4d9-4392-8b95-8cdece1720e6.png)
+![img](assets\1661241534138-81ab193a-b4d9-4392-8b95-8cdece1720e6.png)
 
 ## 使用docker部署portainer
 
