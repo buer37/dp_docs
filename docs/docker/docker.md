@@ -26,11 +26,7 @@ Docker 为容器创建了行业标准，使容器成为了软件交付过程中�
 
 但是由于容器与宿主机共享内核，所以在隔离性和安全性方面不如虚拟机。
 
-![img](assets\1660536847283-9dc57de3-6ff6-4c2c-ace6-6d151e93c73a.png)
-
-
-
-
+[![img](assets\1660536847283-9dc57de3-6ff6-4c2c-ace6-6d151e93c73a.png)](assets\1660536847283-9dc57de3-6ff6-4c2c-ace6-6d151e93c73a.png)
 
 参考文档：
 
@@ -118,7 +114,7 @@ docker-compose-plugin：容器编排工具
 
 ## 1.docker架构
 
-![img](assets\1660548474734-dc17b48b-a862-48af-a8b2-41bbcc5ea96d.svg)
+[![img](assets\1660548474734-dc17b48b-a862-48af-a8b2-41bbcc5ea96d.svg)](assets\1660548474734-dc17b48b-a862-48af-a8b2-41bbcc5ea96d.svg)
 
 ### registry 镜像仓库
 
@@ -174,7 +170,7 @@ docker run --name some-nginx -d -p 8080:80 nginx:1.22
 
 浏览器打开 http://192.168.56.106:8080
 
-![img](assets\1660634983461-c05bf2c7-10a4-4dfc-9c8c-c03d3aaf9c5e.png)
+[![img](assets\1660634983461-c05bf2c7-10a4-4dfc-9c8c-c03d3aaf9c5e.png)](assets\1660634983461-c05bf2c7-10a4-4dfc-9c8c-c03d3aaf9c5e.png)
 
 `-p 8080-8090:8080-8090`公开端口范围，前后必须对应
 
@@ -258,7 +254,7 @@ https://docs.docker.com/engine/reference/run/
 
 docker会自动创建三个网络，`bridge`,`host`,`none`
 
-![img](assets\1660642734402-1c0fa111-aa20-42c5-930f-3164f119ca02.png)
+[![img](assets\1660642734402-1c0fa111-aa20-42c5-930f-3164f119ca02.png)](assets\1660642734402-1c0fa111-aa20-42c5-930f-3164f119ca02.png)
 
 - bridge桥接网络
 
@@ -319,7 +315,7 @@ docker inspect \
 	--format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' my-alpine
 ```
 
-![img](assets\1660908781495-38fcf8f6-b15d-44a7-853d-2dca280be25a.png)
+[![img](assets\1660908781495-38fcf8f6-b15d-44a7-853d-2dca280be25a.png)](assets\1660908781495-38fcf8f6-b15d-44a7-853d-2dca280be25a.png)
 
 #### /etc/hosts
 
