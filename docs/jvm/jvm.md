@@ -44,12 +44,14 @@ JVM JRE JDK的区别
 #### 定义
 
 - 每个**线程**运行需要的内存空间，称为**虚拟机栈**
-- 每个栈由多个**栈帧**组成，对应着每次调用方法时所占用的内存
+- 每个栈由多个**栈帧**组成，对应着每次调用方法时所占用的内存；一个方法开始执行**栈帧**入栈、方法执行完对应的**栈帧**就出栈，所以虚拟机栈不需要进行垃圾回收
 - 每个线程只能有**一个活动栈帧**，对应着**当前正在执行的方法**
+- 线程太多，就可能会出现OutOfMemoryError，创建线程时没有足够的内存去创建虚拟机栈了
+- 方法调用层次太多，就可能会出现StackOverflowError
 
-#### 演示
+可以通过`-Xss`来设置虚拟机栈的大小。[JVM参数官方文档](https://docs.oracle.com/javase/specs/index.html)
 
-代码
+#### 代码演示
 
 ```
 public class Main {
@@ -84,7 +86,7 @@ public class Main {
 
 #### 内存溢出
 
-**Java.lang.stackOverflowError** 栈内存溢出
+栈内存溢出：**Java.lang.StackOverflowError** 
 
 **发生原因**
 
