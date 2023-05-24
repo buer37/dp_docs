@@ -175,6 +175,8 @@ nohup 用于在系统后台不挂断地运行命令，退出终端不会影响�
 
    - :s/old/new/g 替换 old 为 new，g 表示全局替换，如果不加 g 只会替换每行第一个匹配的字符串
 
+     
+
 
 ##### 4. 其他命令
 
@@ -185,3 +187,168 @@ nohup 用于在系统后台不挂断地运行命令，退出终端不会影响�
    - :wq 保存并退出
 
    - :q! 强制退出不保存修改
+
+
+### 防火墙
+
+- 查看防火墙状态
+
+  `firewall-cmd --state`
+
+- 查看已开启的端口
+
+  `firewall-cmd --list-ports`
+
+- 开启指定端口
+
+  `firewall-cmd --zone=public --add-port=3306/tcp --permanent`
+
+- 关闭指定端口
+
+  `firewall-cmd --zone=public --remove-port=8080/tcp --permanent`
+
+- 重新加载防火墙
+
+  `firewall-cmd --reload`
+
+- 开启防火墙
+
+  `systemctl start firewalld.service`
+
+- 重启防火墙
+
+  `systemctl restart firewalld.service`
+
+- 关闭防火墙
+
+  `systemctl stop firewalld`
+
+- 永久关闭防火墙（必须先临时关闭防火墙，再执行该命令，进行永久关闭）
+
+  `systemctl disable firewalld`
+
+### 配置apt国内源
+
+#### 1、各大源官网
+
+```
+https://mirrors.tuna.tsinghua.edu.cn/
+
+http://mirrors.163.com/
+
+https://developer.aliyun.com/mirror/
+
+https://mirrors.ustc.edu.cn/
+
+https://mirrors.huaweicloud.com/home
+```
+
+#### 2、配置
+
+```
+#先备份之前的
+sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+#编辑然后粘贴
+sudo vim /etc/apt/sources.list
+```
+
+##### 清华源
+
+```
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ eoan main restricted universe multiverse
+
+deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ eoan main restricted universe multiverse
+
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ eoan-updates main restricted universe multiverse
+
+deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ eoan-updates main restricted universe multiverse
+
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ eoan-backports main restricted universe multiverse
+
+deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ eoan-backports main restricted universe multiverse
+
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ eoan-security main restricted universe multiverse
+
+deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ eoan-security main restricted universe multiverse
+
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ eoan-proposed main restricted universe multiverse
+
+deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ eoan-proposed main restricted universe multiverse
+```
+
+
+
+##### 阿里源
+
+```
+deb http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse
+
+deb http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse
+
+deb http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiverse
+
+deb http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiverse
+
+deb http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse
+```
+
+
+
+##### 网易163源
+
+```
+deb http://mirrors.163.com/ubuntu/ focal main restricted universe multiverse
+
+deb http://mirrors.163.com/ubuntu/ focal-security main restricted universe multiverse
+
+deb http://mirrors.163.com/ubuntu/ focal-updates main restricted universe multiverse
+
+deb http://mirrors.163.com/ubuntu/ focal-proposed main restricted universe multiverse
+
+deb http://mirrors.163.com/ubuntu/ focal-backports main restricted universe multiverse
+
+deb-src http://mirrors.163.com/ubuntu/ focal main restricted universe multiverse
+
+deb-src http://mirrors.163.com/ubuntu/ focal-security main restricted universe multiverse
+
+deb-src http://mirrors.163.com/ubuntu/ focal-updates main restricted universe multiverse
+
+deb-src http://mirrors.163.com/ubuntu/ focal-proposed main restricted universe multiverse
+
+deb-src http://mirrors.163.com/ubuntu/ focal-backports main restricted universe multiverse
+```
+
+
+
+##### 华为源
+
+```
+1、备份配置文件：
+sudo cp -a /etc/apt/sources.list /etc/apt/sources.list.bak
+2、修改sources.list文件，将http://archive.ubuntu.com和http://security.ubuntu.com替换成http://repo.huaweicloud.com，可以参考如下命令：
+sudo sed -i "s@http://.*archive.ubuntu.com@http://repo.huaweicloud.com@g" /etc/apt/sources.list
+sudo sed -i "s@http://.*security.ubuntu.com@http://repo.huaweicloud.com@g" /etc/apt/sources.list
+3、执行apt-get update更新索引
+```
+
+##### 官方源
+
+```
+自带/etc/apt/sources.list 文件中内容
+```
+
+选择任意一个替换文件中的内容
+
+ 
+
+#### 3、执行更新
+
+```
+sudo apt-get update
+sudo apt-get upgrade
+```
