@@ -192,40 +192,58 @@ nohup 用于在系统后台不挂断地运行命令，退出终端不会影响�
 ### 防火墙
 
 - 查看防火墙状态
-
-  `firewall-cmd --state`
-
+  
+  ```
+  firewall-cmd --state
+  ```
+  
 - 查看已开启的端口
 
-  `firewall-cmd --list-ports`
+  ```
+  firewall-cmd --list-ports
+  ```
 
 - 开启指定端口
 
-  `firewall-cmd --zone=public --add-port=3306/tcp --permanent`
+  ```
+  firewall-cmd --zone=public --add-port=3306/tcp --permanent
+  ```
 
 - 关闭指定端口
 
-  `firewall-cmd --zone=public --remove-port=8080/tcp --permanent`
+  ```
+  firewall-cmd --zone=public --remove-port=8080/tcp --permanent
+  ```
 
 - 重新加载防火墙
 
-  `firewall-cmd --reload`
+  ```
+  firewall-cmd --reload
+  ```
 
 - 开启防火墙
 
-  `systemctl start firewalld.service`
+  ```
+  systemctl start firewalld.service
+  ```
 
 - 重启防火墙
 
-  `systemctl restart firewalld.service`
+  ```
+  systemctl restart firewalld.service
+  ```
 
 - 关闭防火墙
 
-  `systemctl stop firewalld`
+  ```
+  systemctl stop firewalld
+  ```
 
 - 永久关闭防火墙（必须先临时关闭防火墙，再执行该命令，进行永久关闭）
 
-  `systemctl disable firewalld`
+  ```
+  systemctl disable firewalld
+  ```
 
 ### 配置apt国内源
 
@@ -241,15 +259,6 @@ https://developer.aliyun.com/mirror/
 https://mirrors.ustc.edu.cn/
 
 https://mirrors.huaweicloud.com/home
-```
-
-#### 2、配置
-
-```
-#先备份之前的
-sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
-#编辑然后粘贴
-sudo vim /etc/apt/sources.list
 ```
 
 ##### 清华源
@@ -328,8 +337,6 @@ deb-src http://mirrors.163.com/ubuntu/ focal-backports main restricted universe 
 ##### 华为源
 
 ```
-1、备份配置文件：
-sudo cp -a /etc/apt/sources.list /etc/apt/sources.list.bak
 2、修改sources.list文件，将http://archive.ubuntu.com和http://security.ubuntu.com替换成http://repo.huaweicloud.com，可以参考如下命令：
 sudo sed -i "s@http://.*archive.ubuntu.com@http://repo.huaweicloud.com@g" /etc/apt/sources.list
 sudo sed -i "s@http://.*security.ubuntu.com@http://repo.huaweicloud.com@g" /etc/apt/sources.list
@@ -338,17 +345,84 @@ sudo sed -i "s@http://.*security.ubuntu.com@http://repo.huaweicloud.com@g" /etc/
 
 ##### 官方源
 
+/etc/apt/sources.list文件中内容
+
 ```
-自带/etc/apt/sources.list 文件中内容
+cat /etc/apt/sources.list
 ```
 
 选择任意一个替换文件中的内容
 
  
 
-#### 3、执行更新
+#### 2、执行更新
+
+- 先备份之前的
 
 ```
+sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+```
+
+- 编辑然后粘贴上面复制的
+
+```
+sudo vim /etc/apt/sources.list
+```
+
+- 更新配置
+
+```sh
 sudo apt-get update
 sudo apt-get upgrade
 ```
+
+- 通过apt-get安装指定版本的软件
+
+  >package是要安装的软件、version是软件版本号
+
+```bash
+sudo apt-get install package=version
+```
+
+- 使用 apt-cache madison 列出软件的所有来源
+
+```sh
+sudo apt-cache madison package
+```
+
+- 显示已安装包的详情
+
+```
+dpkg -s package
+```
+
+### 免密登录配置
+
+1. 在10.187.101.36机器上生成密钥
+   ```sh
+   ssh-keygen -t rsa -b 4096
+   ```
+
+   - `-t rsa`选项指定生成的密钥类型为RSA。
+   - `-b 4096`选项指定生成的RSA密钥的位数为4096位，这是一个较长的密钥长度，提供了更高的安全性
+
+2. 复制公钥到需要免密访问的机器上，这样就可以免密访问admin@10.187.101.37和admin@10.187.101.38了
+   ```sh
+   cat ~/.ssh/id_rsa.pub | ssh admin@10.187.101.37 'cat >> ~/.ssh/authorized_keys'
+   cat ~/.ssh/id_rsa.pub | ssh admin@10.187.101.38 'cat >> ~/.ssh/authorized_keys'
+   ```
+
+3. 
+
+### crontab
+
+cron计划任务默认root用户与非root用户都可以执行，当然如果在安全方面想禁用这部分用户，则可以通过两个文件来解决：
+
+- cron.allow 定义允许使用crontab命令的用户 
+- cron.deny 定义拒绝使用crontab命令的用户
+
+这两个文件有优先级，普通用户在执行crontab命令的时候 
+
+1. 系统先检测cron.allow文件是否存在；如果存在，则检测文件中存在的用户中是否有当前用户，检测通过则开始执行，检测不通过直接提示该用户没有执行权限
+
+2. 当系统没有检测到cron.allow文件存在的时候，则接下来检测cron.deny文件，看当前用户是否被deny掉，如果没有在cron.deny文件中检测到当前运行crontab的用户，则该命令可以成功执行，如果有检测到该用户在cron.deny文件中，则直接提示该用户没有执行权限
