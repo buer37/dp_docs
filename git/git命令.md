@@ -133,3 +133,48 @@ git push origin 已提交的分支名
    git push --force origin 提交的分支名
    ```
 
+### 使用git filter-branch 批量修改commit
+
+> 另一种方法是使用 Git 的“filter-branch”命令。它允许您使用脚本**批处理**（可能很大）数量的提交。
+>
+> 您可以在存储库中运行以下示例脚本（为新旧电子邮件和名称填写实际值）：
+
+#### 修改
+
+   ```bash
+   $ git filter-branch --env-filter '
+   WRONG_NAME="wrong name"
+   WRONG_EMAIL="wrong@example.com"
+   NEW_NAME="New Name"
+   NEW_EMAIL="correct@example.com"
+   if [ "$GIT_COMMITTER_EMAIL" = "$WRONG_EMAIL" ]
+   then
+       export GIT_COMMITTER_NAME="$NEW_NAME"
+       export GIT_COMMITTER_EMAIL="$NEW_EMAIL"
+   fi
+   if [ "$GIT_AUTHOR_EMAIL" = "$WRONG_EMAIL" ]
+   then
+       export GIT_AUTHOR_NAME="$NEW_NAME"
+       export GIT_AUTHOR_EMAIL="$NEW_EMAIL"
+   fi
+   if [ "$GIT_COMMITTER_NAME" = "$WRONG_NAME" ]
+   then
+       export GIT_COMMITTER_NAME="$NEW_NAME"
+       export GIT_COMMITTER_EMAIL="$NEW_EMAIL"
+   fi
+   if [ "$GIT_AUTHOR_NAME" = "$WRONG_NAME" ]
+   then
+       export GIT_AUTHOR_NAME="$NEW_NAME"
+       export GIT_AUTHOR_EMAIL="$NEW_EMAIL"
+   fi
+   ' --tag-name-filter cat -- --branches --tags
+   ```
+
+#### push到仓库
+
+- 与提到的其他方法一样，同样的警告适用于此方法：<font color=red>您正在使用此命令重写历史记录，并在此过程中创建新的提交对象！</font>
+
+   ```bash
+   git push --force
+   ```
+
