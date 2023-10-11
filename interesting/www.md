@@ -16,3 +16,9 @@
 	- https://www.userscript.zone/
 	- https://greasyfork.org/
 
+### 3.jdk下载
+
+```
+https://adoptium.net/
+```
+
