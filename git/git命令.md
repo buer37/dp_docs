@@ -12,7 +12,10 @@ git config --global  --list
 git config --global user.name "用户名"
 git config --global user.email "邮箱"
 ```
-
+#### Git 默认会对非 ASCII 字符进行转义，可通过以下配置关闭：
+```
+git config --global core.quotepath off
+```
 ### 分支
 
 #### 新建
