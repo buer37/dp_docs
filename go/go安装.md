@@ -66,9 +66,9 @@ C:\Go
 ### 最终目录 & 变量汇总（标准）
 
 ```text
-GOROOT = C:\Go
-GOPATH = C:\Users\ae v\go
-PATH   = %GOROOT%\bin;%GOPATH%\bin
+GOROOT = E:\MyWork\go\go1.25.5\bin
+GOPATH = E:\MyWork\go\gopath
+PATH = %GOROOT%\bin;%GOPATH%\bin
 ```
 
 ---
@@ -100,14 +100,13 @@ C:\Go\bin\go.exe
 go version
 正确输出示例：
 go version go1.25.5 windows/amd64
+```
 
----
 ## 配置国内代理
 
 ```bat
 go env -w GOPROXY=https://goproxy.cn,direct
 go env -w GO111MODULE=on
-```
 验证：
 ```bat
 go env GOPROXY

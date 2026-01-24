@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "d68d71beb3ae2820",
+        "id": "23f53ef6ff397e22",
         "type": "tabs",
         "children": [
           {
-            "id": "d220ae53515204ad",
+            "id": "fd674e913c5ad267",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "AI/Rule.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "新标签页"
+              "title": "Rule"
             }
           }
         ]
@@ -90,7 +94,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "git/git.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -100,7 +103,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "git 的反向链接列表"
+              "title": "反向链接"
             }
           },
           {
@@ -109,12 +112,11 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "git/git.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "git 的出链列表"
+              "title": "出链"
             }
           },
           {
@@ -138,13 +140,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "git/git.md",
+                "file": "AI/Rule.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "git 的大纲"
+              "title": "Rule 的大纲"
             }
           },
           {
@@ -156,13 +158,27 @@
               "icon": "git-pull-request",
               "title": "Source Control"
             }
+          },
+          {
+            "id": "8996817dad6fb806",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "添加笔记属性"
+            }
           }
         ],
         "currentTab": 4
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 358.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -172,12 +188,27 @@
       "daily-notes:打开/创建今天的日记": false,
       "templates:插入模板": false,
       "command-palette:打开命令面板": false,
-      "obsidian-git:Open Git source control": false
+      "obsidian-git:Open Git source control": false,
+      "workspaces:管理工作区布局": false,
+      "audio-recorder:开始/结束录音": false,
+      "random-note:开始漫游笔记": false
     }
   },
-  "active": "d220ae53515204ad",
+  "active": "cd97491bdcafcef5",
   "lastOpenFiles": [
-    "git/git.md",
-    "未命名.canvas"
+    "linux/ZSH.md",
+    "AI/Rule.md",
+    "AI",
+    "43105839b8015748cd68e9f445cd7b10.png",
+    "备忘录.md",
+    "java/jackson.md",
+    "go/go安装.md",
+    "go",
+    "未命名.canvas",
+    "未命名 1.canvas",
+    "README.md",
+    "2025-08-30.md",
+    "jenkins/jenkins安装并部署项目.md",
+    "git/git.md"
   ]
 }
