@@ -53,7 +53,7 @@ nav:
     - 概述: linux/linux.md
     - ZSH: linux/ZSH.md
     - 常见问题: linux/常见问题.md
-    - rsyslogds病毒: linux/.rsyslogds病毒.md
+    # linux/.rsyslogds病毒.md 为 dotfile，MkDocs 会排除，故不在 nav 中展示
   - Mac: mac/mac.md
   - Maven: maven/常见问题.md
   - MySQL:

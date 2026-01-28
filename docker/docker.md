@@ -118,7 +118,7 @@ docker-compose-plugin：容器编排工具
 
 ## 1.docker架构
 
-![img](docker.assets/1660548474734-dc17b48b-a862-48af-a8b2-41bbcc5ea96d.svg+xml)
+![img](docker.assets/1660548474734-dc17b48b-a862-48af-a8b2-41bbcc5ea96d.svg)
 
 ### registry 镜像仓库
 
