@@ -1,0 +1,66 @@
+# MkDocs 配置 - 用于生成 GitHub Pages 文档站
+# 在线预览: pip install mkdocs-material && mkdocs serve
+
+site_name: 学习笔记
+site_description: 个人学习与备忘文档
+site_url: https://YOUR_USERNAME.github.io/dp_docs/  # 部署后改为你的 GitHub Pages 地址
+
+theme:
+  name: material
+  language: zh
+
+repo_url: https://github.com/buer37/dp_docs  # 改为你的仓库地址
+edit_uri: edit/master/
+
+docs_dir: .
+
+plugins:
+  - search
+  - exclude:
+      glob:
+        - "redis/data/**"
+        - "redis/conf/**"
+        - "*.py"
+        - "*.bat"
+        - ".git/**"
+        - ".idea/**"
+
+nav:
+  - 首页: README.md
+  - 备忘录: 备忘录.md
+  - AI: AI/Rule.md
+  - Docker:
+    - 使用: docker/docker-use.md
+    - 概述: docker/docker.md
+    - 常用命令: docker/常用命令.md
+  - Git:
+    - 概述: git/git.md
+    - 命令: git/git命令.md
+  - Go: go/go安装.md
+  - Java:
+    - 基础知识: java/基础知识.md
+    - Spring Boot: java/springboot.md
+    - 单元测试: java/单元测试.md
+    - Jackson: java/jackson.md
+    - 问题: java/问题.md
+    - JVM: java/jvm/jvm.md
+    - JVM 分析调优: java/jvm/jvm分析调优.md
+  - JavaScript: javascript/javacript.md
+  - Jenkins: jenkins/jenkins安装并部署项目.md
+  - K8s: k8s/常用命令.md
+  - Linux:
+    - 概述: linux/linux.md
+    - ZSH: linux/ZSH.md
+    - 常见问题: linux/常见问题.md
+    - rsyslogds病毒: linux/.rsyslogds病毒.md
+  - Mac: mac/mac.md
+  - Maven: maven/常见问题.md
+  - MySQL:
+    - 安装: mysql/install.md
+    - SQL学习: mysql/sql学习.md
+  - Node: node/node安装.md
+  - Other: other/openConnect问题.md
+  - RabbitMQ: rabbitmq/rabbitmq安装.md
+  - Redis: redis/redis安装.md
+  - Windows: windows/命令行.md
+  - 其他: interesting/edge.md

@@ -1,0 +1,5 @@
+# 本地预览文档站时安装: pip install -r requirements-docs.txt
+# 然后执行: mkdocs serve
+mkdocs>=1.5
+mkdocs-material>=9.0
+mkdocs-exclude>=1.0
