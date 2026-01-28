@@ -25,6 +25,7 @@ Penn
 4. **本地预览**  
    ```bash
    pip install -r requirements-docs.txt
+   bash prepare-docs.sh   # 或 Git Bash 下: ./prepare-docs.sh
    mkdocs serve
    ```  
    浏览器打开 http://127.0.0.1:8000 即可预览。

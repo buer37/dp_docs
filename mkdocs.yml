@@ -12,7 +12,8 @@ theme:
 repo_url: https://github.com/buer37/dp_docs  # 改为你的仓库地址
 edit_uri: edit/master/
 
-docs_dir: .
+# 必须为配置文件的子目录，不能为 "."；CI 中会在构建前把内容复制到 docs/
+docs_dir: docs
 
 plugins:
   - search

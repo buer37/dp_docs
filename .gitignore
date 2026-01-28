@@ -23,3 +23,7 @@
 hs_err_pid*
 .idea/
 /.obsidian
+
+# MkDocs 构建产物与临时 docs 目录（CI 中会临时生成 docs/）
+/site/
+/docs/

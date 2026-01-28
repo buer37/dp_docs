@@ -34,6 +34,16 @@ jobs:
         run: |
           pip install mkdocs mkdocs-material mkdocs-exclude
 
+      # MkDocs 要求 docs_dir 为子目录，将当前文档同步到 docs/ 再构建
+      - name: Prepare docs directory
+        run: |
+          mkdir -p docs
+          cp *.md docs/ 2>/dev/null || true
+          for d in */; do
+            [ "$d" = "docs/" ] && continue
+            cp -r "$d" docs/
+          done
+
       - name: Build site
         run: mkdocs build --strict
 
