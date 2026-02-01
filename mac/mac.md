@@ -393,6 +393,34 @@ conda config --set show_channel_urls true
 1. 删除`SystemConfiguration`文件夹下除`com.apple.boot.plist`以外所有文件（最好也备份一下删除的文件）
 1. 重新启动电脑，重新配置网络，操作完成
 
+ 
+### 登录项与后台残留清理（Office / MSJ 等）
+
+卸载软件后，“系统设置 > 通用 > 登录项”或“允许在后台”里仍可能出现残留项，常见有两类：
+
+**1. Microsoft Office 相关（Licensing / Helper）**
+
+- **是什么**：Office 用来验证激活状态的后台守护程序，即使已把 Office 拖到废纸篓，验证服务常仍留在系统中。
+- **推荐清理步骤**：
+  - **步骤一**：使用 [Microsoft License Removal Tool](https://support.microsoft.com/zh-cn/office)（许可证删除工具）按提示运行，可移除大部分授权相关后台服务。
+  - **步骤二**：手动检查并删除以下目录中以 `com.microsoft` 开头的文件（尤其含 licensing、autoupdate、errorreporting 的）：
+    - 系统守护程序：`/Library/LaunchDaemons/`（常见如 `com.microsoft.office.licensingV2.helper.plist`）
+    - 系统代理：`/Library/LaunchAgents/`
+    - 用户代理：`~/Library/LaunchAgents/`
+    - 特权辅助工具：`/Library/PrivilegedHelperTools/`（查找 `com.microsoft.office.licensingV2.helper`）
+  - 打开方式：Finder 按 `Shift + Command + G`，输入上述路径后进入并删除对应文件。
+  - 使用终端删除更加有效，Finder搜索效果一般。
+- **参考视频**：[How to Remove All Office Licenses from Mac](https://www.youtube.com/watch?v=8TMxPq2khhU)
+
+**2. “MSJ”等名称的登录项**
+
+- **是什么**：名称带 “MS” 不一定代表 Microsoft；在 M1/M2 Mac 上常为 **AlDente**（电池充电限制软件）或其他第三方工具的辅助程序。
+- **确认方式**：在“登录项”中点击该项旁的 “i”，或在 Finder 中搜索该名称，确认所属应用。
+- **处理**：若需保留该软件（如电池管理），可不动；若确定要移除，在 `~/Library/LaunchAgents/` 或 `/Library/LaunchDaemons/` 中查找对应 plist（如 AlDente 多为 `com.apphousekitchen.aldente-pro.helper` 之类），删除后该功能会失效。
+
+**建议**：清理完成后重启一次，确保后台服务已停止；开发环境（Maven、iTerm2 等）下保持登录项简洁，有助于减少端口占用和冲突。
+
+
 ## 参考资料
 
 - [mac 一站式解决大部分Mac问题](https://44maker.netlify.app/wiki/mac/)
