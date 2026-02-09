@@ -2,7 +2,7 @@
 
 site_name: 学习笔记
 site_description: 个人学习与备忘文档
-site_url: https://YOUR_USERNAME.github.io/dp_docs/  # 部署后改为你的 GitHub Pages 地址
+site_url: https://buer37.github.io/dp_docs/  # 部署后改为你的 GitHub Pages 地址
 
 theme:
   name: material
