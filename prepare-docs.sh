@@ -8,4 +8,4 @@ for d in */; do
   [ "$d" = "docs/" ] && continue
   cp -r "$d" docs/
 done
-echo "docs/ 已就绪，可执行: mkdocs serve"
+echo "docs/ 已就绪"

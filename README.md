@@ -21,11 +21,3 @@ Penn
 3. **推送代码**  
    推送到 `main` 或 `master` 后，Actions 会自动构建并发布。  
    完成后访问：`https://<你的用户名>.github.io/dp_docs/`。
-
-4. **本地预览**  
-   ```bash
-   pip install -r requirements-docs.txt
-   bash prepare-docs.sh   # 或 Git Bash 下: ./prepare-docs.sh
-   mkdocs serve
-   ```  
-   浏览器打开 http://127.0.0.1:8000 即可预览。

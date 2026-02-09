@@ -1,5 +1,4 @@
 # MkDocs 配置 - 用于生成 GitHub Pages 文档站
-# 在线预览: pip install mkdocs-material && mkdocs serve
 
 site_name: 学习笔记
 site_description: 个人学习与备忘文档
