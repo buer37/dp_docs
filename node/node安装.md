@@ -26,17 +26,26 @@
    ```
 
 4. （可选）配置 npm 全局模块路径与缓存路径，避免占用系统目录：
+在 macOS 上用 Homebrew 装 Node 时，不设置 prefix/cache 的话，全局包会装在 Homebrew 的目录里（例如 /opt/homebrew），不会在用户目录下新建 node_global/node_cache，用户目录完全不会乱，只是权限/清理要跟着 Homebrew 走。
+如果不想操心目录管理，可以直接不写「可选：配置 npm 全局路径」那一步，对很多人就够用了。
+总结：
+想自己管目录：用「一个父目录」（如 ~/.local）+ 所有软件子目录 + 统一 PATH（如 ~/.local/bin）。
+想少管一点：用 Homebrew 装 Node，不设自定义 prefix/cache，用户目录就不会多这些目录。
 
    ```bash
-   mkdir -p ~/node_global ~/node_cache
-   npm config set prefix "$HOME/node_global"
-   npm config set cache "$HOME/node_cache"
+   mkdir -p ~/Dev/node_global ~/Dev/node_cache
+   npm config set prefix "$HOME/Dev/node_global"
+   npm config set cache "$HOME/Dev/node_cache"
    ```
 
    将全局可执行目录加入 PATH，在 `~/.zshrc` 或 `~/.bash_profile` 中追加：
 
    ```bash
-   export PATH="$HOME/node_global/bin:$PATH"
+   export PATH="$HOME/Dev/node_global/bin:$PATH"
+   ```
+
+   ```bash
+   source ~/.zshrc
    ```
 
    然后执行 `source ~/.zshrc`（或 `source ~/.bash_profile`）使配置生效。

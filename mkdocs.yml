@@ -8,6 +8,17 @@ site_url: https://YOUR_USERNAME.github.io/dp_docs/  # 部署后改为你的 GitH
 theme:
   name: material
   language: zh
+  features:
+    - content.code.copy
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
 
 repo_url: https://github.com/buer37/dp_docs  # 改为你的仓库地址
 edit_uri: edit/master/
