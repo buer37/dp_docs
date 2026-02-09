@@ -1,5 +1,52 @@
 #### node
 
+#### macOS (M 系列芯片 / Homebrew)
+
+1. 确保已安装 [Homebrew](https://brew.sh)。若未安装，在终端执行：
+
+   ```bash
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   ```
+
+   安装完成后按提示将 brew 加入 PATH（通常需执行提示中的 `echo` 和 `eval` 命令）。
+
+2. 使用 Homebrew 安装 Node.js：
+
+   ```bash
+   brew install node
+   ```
+
+   Homebrew 会安装当前推荐的 LTS 版本，同时包含 `node`、`npm` 和 `npx`。
+
+3. 验证安装是否成功：
+
+   ```bash
+   node -v
+   npm -v
+   ```
+
+4. （可选）配置 npm 全局模块路径与缓存路径，避免占用系统目录：
+
+   ```bash
+   mkdir -p ~/node_global ~/node_cache
+   npm config set prefix "$HOME/node_global"
+   npm config set cache "$HOME/node_cache"
+   ```
+
+   将全局可执行目录加入 PATH，在 `~/.zshrc` 或 `~/.bash_profile` 中追加：
+
+   ```bash
+   export PATH="$HOME/node_global/bin:$PATH"
+   ```
+
+   然后执行 `source ~/.zshrc`（或 `source ~/.bash_profile`）使配置生效。
+
+5. （可选）使用国内镜像加速：
+
+   ```bash
+   npm config set registry https://registry.npmmirror.com
+   ```
+
 #### Windows
 
 1. 检测安装是否成功, 分别查看node和npm版本
